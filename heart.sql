@@ -83,3 +83,11 @@ CREATE TABLE `users` (
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+INSERT INTO `params` (`id`, `param_name`)
+VALUES
+	(1,'bpm'),
+	(2,'p wave'),
+	(3,'pr interval'),
+	(4,'qrs complex'),
+	(5,'qt interval');
