@@ -1,0 +1,48 @@
+#!/bin/bash
+
+node_repos="web-and-notifier gateway"
+repos="RTProcessor $node_repos"
+
+root="$(pwd)"
+
+killall node
+killall rtproc
+
+mkdir -p build
+cd build
+
+for repo in $repos; do
+	if [ ! -e $repo ]; then
+		git clone git@github.com:hacking-medicine/$repo
+	else
+		cd $repo
+		echo -n "Checking $repo ... "
+		git pull
+		cd ..
+	fi
+done
+
+echo "Updated everything"
+
+cd RTProcessor
+cabal install || (echo "RTProcessor build failed, exit!"; exit)
+nohup .cabal-sandbox/bin/rtproc &> "$root/rtproc.log" &
+
+echo "RTProcessor up and running"
+
+
+for repo in $node_repos; do
+	cd "$root/build/$repo"
+	npm install
+	nohup node src/index.js &> "$root/$repo.log" &
+	echo "$repo up and running"
+done
+
+
+
+
+
+
+
+
+
